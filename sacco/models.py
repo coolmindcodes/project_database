@@ -20,7 +20,7 @@ class Customer(models.Model):
 class Deposit(models.Model):
     amount = models.IntegerField()
     status = models.BooleanField(default=False)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='deposits') # many to one
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -31,7 +31,14 @@ class Deposit(models.Model):
         db_table = 'deposits'
 
 
-
+class Address(models.Model):
+    street = models.CharField(max_length=50)
+    town = models.CharField(max_length=50)
+    county = models.CharField(max_length=50)
+    sub_county = models.CharField(max_length=50)
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE, related_name='address') # one to one
+    class Meta:
+        db_table = 'addresses'
 
 # run the migrations
 # python manage.py makemigrations
