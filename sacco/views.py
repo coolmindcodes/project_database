@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from sacco.models import Customer, Deposit, Address
@@ -27,12 +28,18 @@ def test(request):
     # deposits = customer_1.deposits.filter(status=True).filter(created_at__month=11)
     # for deposit in deposits:
     #     print(deposit)
-    try:
-        customer_1  = Customer.objects.get(pk=1)
-        address = Address(street="K street", town="Mombasa Old Town", sub_county="M Town", county="001", customer=customer_1)
-        address.save()
-    except IntegrityError:
-        messages.add_message(request, messages.ERROR, "User already has an address!")
+    # try:
+    #     customer_1  = Customer.objects.get(pk=1)
+    #     address = Address(street="K street", town="Mombasa Old Town", sub_county="M Town", county="001", customer=customer_1)
+    #     address.save()
+    # except IntegrityError:
+    #     messages.add_message(request, messages.ERROR, "User already has an address!")
+
+    # customers = Customer.objects.filter(gender='Non-binary')
+    # for customer in customers:
+    #     customer.gender = 'Female'
+    #     customer.save()
+
     return render(request, 'test.html')
 
 # http://localhost:8000/
