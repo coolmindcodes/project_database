@@ -46,4 +46,5 @@ def delete_customer(request, customer_id):
 
 def customer_details(request,customer_id):
     customer = Customer.objects.get(id=customer_id)
-    return render(request, 'details.html', {'customer': customer})
+    deposits = customer.deposits.all()
+    return render(request, 'details.html', {'customer': customer, 'deposits': deposits})

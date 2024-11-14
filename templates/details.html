@@ -46,7 +46,7 @@
                        <td>{{ customer.gender }}</td>
                    </tr>
                    
-                    <tr>
+                   <tr>
                        <td class="h6">Weight</td>
                        <td>{{ customer.weight }}</td>
                    </tr>
@@ -55,6 +55,23 @@
            <div class="col-sm-4">
                <p class="text-center">Profile Picture</p>
                <img class="img-fluid mx-auto d-block profile" src="{% static 'default.png' %}" alt="">
+           </div>
+           <div class="col-sm-4">
+               <p>Deposits</p>
+               <table class="table table-striped">
+                   <tr>
+                       <th>Date</th>
+                       <th>Amount</th>
+                       <th>Status</th>
+                   </tr>
+                   {% for deposit in deposits %}
+                       <tr>
+                           <td>{{ deposit.created_at | date:"d-m-Y" }}</td>
+                           <td>{{ deposit.amount }}</td>
+                           <td>{{ deposit.status }}</td>
+                       </tr>
+                   {% endfor %}
+               </table>
            </div>
        </div>
     </div>
