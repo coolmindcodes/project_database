@@ -108,8 +108,6 @@ class Command(BaseCommand):
         for c in customers:
             customer = Customer(**c)
             customer.save()
-
-        self.stdout.write(
-            self.style.SUCCESS('Successfully populated customers')
-        )
+        print("Populated customers successfully")
+        # python manage.py populate
 
