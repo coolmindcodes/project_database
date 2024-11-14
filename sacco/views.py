@@ -26,3 +26,6 @@ def test(request):
 # http://localhost:8000/test
 # python manage.py runserver 8001
 
+def customers(request):
+    data = Customer.objects.all() # ORM select * from customers
+    return render(request, "customers.html", {"customers": data})
