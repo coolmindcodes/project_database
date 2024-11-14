@@ -27,7 +27,7 @@ def test(request):
 # python manage.py runserver 8001
 
 def customers(request):
-    data = Customer.objects.all() # ORM select * from customers
+    data = Customer.objects.all().order_by('-id').values()[0:10] # ORM select * from customers
     return render(request, "customers.html", {"customers": data})
 
 

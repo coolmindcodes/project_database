@@ -23,9 +23,9 @@
                   <td>{{ customer.first_name }}</td>
                   <td>{{ customer.last_name }}</td>
                   <td>{{ customer.email }}</td>
-                  <td>{{ customer.created_at }}</td>
+                  <td>{{ customer.created_at | date:"d-m-Y" }}</td>
                   <td>
-                      <a class="btn btn-danger" href="{% url 'delete_customer' customer.id %}">Remove</a> 
+                      <a class="btn btn-danger btn-sm" href="{% url 'delete_customer' customer.id %}">Remove</a> 
                   </td>
               </tr>
            {% empty %}
