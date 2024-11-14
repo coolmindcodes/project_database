@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from sacco.models import Customer, Deposit
@@ -27,11 +28,22 @@ def test(request):
 # python manage.py runserver 8001
 
 def customers(request):
-    data = Customer.objects.all().order_by('-id').values()[0:10] # ORM select * from customers
-    return render(request, "customers.html", {"customers": data})
+    data = Customer.objects.all().order_by('id').values()# ORM select * from customers
+    paginator = Paginator(data, 15)
+    page = request.GET.get('page', 1)
+    try:
+      paginated_data = paginator.page(page)
+    except  EmptyPage:
+        paginated_data = paginator.page(1)
+    return render(request, "customers.html", {"data": paginated_data})
 
 
 def delete_customer(request, customer_id):
     customer = Customer.objects.get(id=customer_id) # select * from customers where id=7
     customer.delete() # delete from customers where id=7
     return redirect('customers')
+
+
+def customer_details(request,customer_id):
+    customer = Customer.objects.get(id=customer_id)
+    return render(request, 'details.html', {'customer': customer})
