@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -60,6 +61,19 @@ def update_customer(request, customer_id):
     else:
         form = CustomerForm(instance=customer)
     return render(request, 'customer_update_form.html', {"form": form})
+
+
+
+def search_customer(request):
+    search_term = request.GET.get('search')
+    data = Customer.objects.filter( Q(first_name__icontains=search_term) | Q(last_name__icontains=search_term) | Q(email__icontains=search_term)  )
+    return render(request, "search.html", {"customers": data})
+
+
+
+
+
+
 
 
 # pip install django-crispy-forms
