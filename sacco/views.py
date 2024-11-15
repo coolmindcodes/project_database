@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -94,4 +94,5 @@ def deposit(request, customer_id):
 def customer_details(request,customer_id):
     customer = Customer.objects.get(id=customer_id)
     deposits = customer.deposits.all()
-    return render(request, 'details.html', {'customer': customer, 'deposits': deposits})
+    total = Deposit.objects.filter(customer=customer).filter(status=True).aggregate(Sum('amount'))['amount__sum']
+    return render(request, 'details.html', {'customer': customer, 'deposits': deposits, 'total': total})
