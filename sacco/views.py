@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -30,8 +30,14 @@ def test(request):
 # python manage.py runserver 8001
 
 def customers(request):
-    data = Customer.objects.all().order_by('-id').values() # ORM select * from customers
-    return render(request, "customers.html", {"customers": data})
+    data = Customer.objects.all().order_by('id').values()# ORM select * from customers
+    paginator = Paginator(data, 15)
+    page = request.GET.get('page', 1)
+    try:
+      paginated_data = paginator.page(page)
+    except  EmptyPage:
+        paginated_data = paginator.page(1)
+    return render(request, "customers.html", {"data": paginated_data})
 
 
 def delete_customer(request, customer_id):
@@ -82,3 +88,9 @@ def deposit(request, customer_id):
     else:
         form = DepositForm()
     return render(request, 'deposit_form.html', {"form": form, "customer": customer})
+
+
+def customer_details(request,customer_id):
+    customer = Customer.objects.get(id=customer_id)
+    deposits = customer.deposits.all()
+    return render(request, 'details.html', {'customer': customer, 'deposits': deposits})
