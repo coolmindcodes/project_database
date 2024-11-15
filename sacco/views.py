@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
+from sacco.app_forms import CustomerForm
 from sacco.models import Customer, Deposit
 
 
@@ -27,7 +29,7 @@ def test(request):
 # python manage.py runserver 8001
 
 def customers(request):
-    data = Customer.objects.all().order_by('-id').values()[0:10] # ORM select * from customers
+    data = Customer.objects.all().order_by('-id').values() # ORM select * from customers
     return render(request, "customers.html", {"customers": data})
 
 
@@ -35,3 +37,17 @@ def delete_customer(request, customer_id):
     customer = Customer.objects.get(id=customer_id) # select * from customers where id=7
     customer.delete() # delete from customers where id=7
     return redirect('customers')
+
+
+def add_customer(request):
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customers')
+    else:
+        form = CustomerForm()
+    return render(request, 'customer_form.html', {"form": form})
+
+# pip install django-crispy-forms
+# pip install crispy-bootstrap5
