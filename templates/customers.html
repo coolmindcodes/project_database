@@ -15,10 +15,11 @@
                <th>Last Name</th>
                <th>Email</th>
                <th>Joining Date</th>
+              
                <th>Delete</th>
-               <th>Update</th>
-               <th>Deposit</th>
                <th>Details</th>
+               <th>Deposit</th>
+               <th>Update</th>
            </tr>
            {% for customer in data.object_list %}
            	  <tr>
@@ -32,6 +33,12 @@
                   </td>
                   <td>
                       <a class="btn btn-info btn-sm" href="{% url 'customer_details' customer.id %}">Details</a>
+                  </td>
+                  <td>
+                      <a class="btn btn-primary btn-sm" href="{% url 'deposit' customer.id %}">Deposit</a>
+                  </td>
+                   <td>
+                      <a class="btn btn-secondary btn-sm" href="{% url 'update_customer' customer.id %}">Update</a>
                   </td>
               </tr>
            {% endfor %}
