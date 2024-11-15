@@ -17,6 +17,7 @@
                <th>Joining Date</th>
                <th>Delete</th>
                <th>Update</th>
+               <th>Deposit</th>
            </tr>
            {% for customer in customers %}
            	  <tr>
@@ -30,6 +31,9 @@
                   </td>
                   <td>
                       <a class="btn btn-success btn-sm" href="{% url 'update_customer' customer.id %}">Update</a> 
+                  </td>
+                  <td>
+                      <a class="btn btn-primary btn-sm" href="{% url 'deposit' customer.id %}">Deposit</a> 
                   </td>
               </tr>
            {% empty %}

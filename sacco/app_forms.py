@@ -1,6 +1,6 @@
 from django import forms
 
-from sacco.models import Customer
+from sacco.models import Customer, Deposit
 
 GENDER_CHOICES = {"Male": "Male", "Female": "Female"}
 class CustomerForm(forms.ModelForm):
@@ -14,6 +14,13 @@ class CustomerForm(forms.ModelForm):
         }
 
 
+class DepositForm(forms.ModelForm):
+    class Meta:
+        model = Deposit
+        fields = ['amount']
+        widgets = {
+            'amount': forms.NumberInput(attrs={'type': 'number', 'min':'0', 'max':'100000'})
+        }
 
 # Update Customer/ Gender radio button
 # Cloning and setting up the virtual env
