@@ -49,7 +49,7 @@ def delete_customer(request, customer_id):
 
 def add_customer(request):
     if request.method == "POST":
-        form = CustomerForm(request.POST)
+        form = CustomerForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('customers')
@@ -61,7 +61,7 @@ def add_customer(request):
 def update_customer(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
     if request.method == "POST":
-        form = CustomerForm(request.POST, instance=customer)
+        form = CustomerForm(request.POST, request.FILES, instance=customer)
         if form.is_valid():
             form.save()
             return redirect('customers')
@@ -96,3 +96,5 @@ def customer_details(request,customer_id):
     deposits = customer.deposits.all()
     total = Deposit.objects.filter(customer=customer).filter(status=True).aggregate(Sum('amount'))['amount__sum']
     return render(request, 'details.html', {'customer': customer, 'deposits': deposits, 'total': total})
+
+# pip install Pillow

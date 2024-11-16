@@ -59,7 +59,12 @@
            </div>
            <div class="col-sm-4">
                <p class="text-center">Profile Picture</p>
-               <img class="img-fluid mx-auto d-block profile" src="{% static 'default.png' %}" alt="">
+               {% if customer.profile_pic %}
+               	 <img class="img-fluid mx-auto d-block profile" src="{{ customer.profile_pic.url }}" alt="">
+               {% else %}
+               	 <img class="img-fluid mx-auto d-block profile" src="{% static 'default.png' %}" alt="">
+               {% endif %} 
+              
            </div>
            <div class="col-sm-4">
                <p>Deposits</p>
