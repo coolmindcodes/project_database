@@ -4,7 +4,7 @@ from django.db.models import Q, Sum
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from sacco.app_forms import CustomerForm, DepositForm
+from sacco.app_forms import CustomerForm, DepositForm, LoginForm
 from sacco.models import Customer, Deposit
 
 
@@ -101,5 +101,16 @@ def customer_details(request,customer_id):
     deposits = customer.deposits.all()
     total = Deposit.objects.filter(customer=customer).filter(status=True).aggregate(Sum('amount'))['amount__sum']
     return render(request, 'details.html', {'customer': customer, 'deposits': deposits, 'total': total})
+
+
+def login_user(request):
+    form = LoginForm()
+    return render(request, "login_form.html", {"form": form})
+
+
+def signout_user(request):
+    return None
+
+
 
 # pip install Pillow

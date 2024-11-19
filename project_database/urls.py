@@ -37,6 +37,10 @@ urlpatterns = [
 
     path('customers/update/<int:customer_id>', views.update_customer, name='update_customer'),
 
+    path('login', views.login_user, name='login'),
+
+    path('logout', views.signout_user, name='logout'),
+
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #customers/delete/4
