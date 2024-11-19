@@ -142,5 +142,7 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
+LOGIN_URL = 'login'
+
 # pip install django-crispy-forms
 # pip install crispy-bootstrap5

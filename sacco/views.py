@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q, Sum
 from django.http import HttpResponse
@@ -32,6 +33,7 @@ def test(request):
 # http://localhost:8000/test
 # python manage.py runserver 8001
 
+@login_required
 def customers(request):
     data = Customer.objects.all().order_by('id').values()# ORM select * from customers
     paginator = Paginator(data, 15)
@@ -42,14 +44,14 @@ def customers(request):
         paginated_data = paginator.page(1)
     return render(request, "customers.html", {"data": paginated_data})
 
-
+@login_required
 def delete_customer(request, customer_id):
     customer = Customer.objects.get(id=customer_id) # select * from customers where id=7
     customer.delete() # delete from customers where id=7
     messages.info(request, f"Customer {customer.first_name} was deleted!!")
     return redirect('customers')
 
-
+@login_required
 def add_customer(request):
     if request.method == "POST":
         form = CustomerForm(request.POST, request.FILES)
@@ -61,7 +63,7 @@ def add_customer(request):
         form = CustomerForm()
     return render(request, 'customer_form.html', {"form": form})
 
-
+@login_required
 def update_customer(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
     if request.method == "POST":
@@ -75,13 +77,13 @@ def update_customer(request, customer_id):
     return render(request, 'customer_update_form.html', {"form": form})
 
 
-
+@login_required
 def search_customer(request):
     search_term = request.GET.get('search')
     data = Customer.objects.filter( Q(first_name__icontains=search_term) | Q(last_name__icontains=search_term) | Q(email__icontains=search_term)  )
     return render(request, "search.html", {"customers": data})
 
-
+@login_required
 def deposit(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
     if request.method == "POST":
@@ -96,7 +98,7 @@ def deposit(request, customer_id):
         form = DepositForm()
     return render(request, 'deposit_form.html', {"form": form, "customer": customer})
 
-
+@login_required
 def customer_details(request,customer_id):
     customer = Customer.objects.get(id=customer_id)
     deposits = customer.deposits.all()
@@ -121,6 +123,7 @@ def login_user(request):
         return render(request, "login_form.html", {"form": form})
 
 # sql injection
+@login_required
 def signout_user(request):
     logout(request)
     return redirect('login')
