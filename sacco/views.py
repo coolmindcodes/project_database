@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q, Sum
 from django.http import HttpResponse
@@ -104,12 +105,25 @@ def customer_details(request,customer_id):
 
 
 def login_user(request):
-    form = LoginForm()
-    return render(request, "login_form.html", {"form": form})
+    if request.method == "GET":
+        form = LoginForm()
+        return render(request, "login_form.html", {"form": form})
+    elif request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user:
+                login(request, user) # sessions # cookies
+                return redirect('customers')
+        messages.error(request, "Invalid username or password")
+        return render(request, "login_form.html", {"form": form})
 
-
+# sql injection
 def signout_user(request):
-    return None
+    logout(request)
+    return redirect('login')
 
 
 
