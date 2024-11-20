@@ -32,18 +32,30 @@
                         <td>
                             <a class="btn btn-danger btn-sm" href="{% url 'delete_customer' customer.id %}">Remove</a>
                         </td>
+                    {% else %}
+                       <td>
+                           <button class="btn btn-sm disabled">Action</button>
+                       </td>
                     {% endif %}
 
                     {% if perms.sacco.view_customer %}
                         <td>
                             <a class="btn btn-info btn-sm" href="{% url 'customer_details' customer.id %}">Details</a>
                         </td>
+                    {% else %}
+                       <td>
+                           <button class="btn btn-sm disabled">Action</button>
+                       </td>
                     {% endif %}
 
                     {% if perms.sacco.add_deposit %}
                         <td>
                             <a class="btn btn-primary btn-sm" href="{% url 'deposit' customer.id %}">Deposit</a>
                         </td>
+                    {% else %}
+                       <td>
+                           <button class="btn btn-sm disabled">Action</button>
+                       </td>
                     {% endif %}
 
                     {% if perms.sacco.change_customer %}
@@ -51,6 +63,10 @@
                             <a class="btn btn-secondary btn-sm"
                                href="{% url 'update_customer' customer.id %}">Update</a>
                         </td>
+                    {% else %}
+                       <td>
+                           <button class="btn btn-sm disabled">Action</button>
+                       </td>
                     {% endif %}
                 </tr>
             {% endfor %}
